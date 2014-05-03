@@ -1,6 +1,7 @@
 class Controller  
-  def initialize(message)
-      
+  attr_accessor :socket
+  def initialize(socket_id)
+    self.socket = Database.socket(socket_id)
   end
   
   def process(action)

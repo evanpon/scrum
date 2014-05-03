@@ -3,13 +3,13 @@ class Router
     "#{controller}/#{action}"
   end
   
-  def self.route(message)
+  def self.route(message, socket_id)
     path = parse_path(message['path'])
 
     controller_name = "#{path[0].capitalize}Controller"
     klass = Object.const_defined?(controller_name) ? Object.const_get(controller_name) : 
                                                      Object.const_missing(controller_name)
-    controller = klass.new(message)
+    controller = klass.new(socket_id)
     
     action = path[1]
     controller.process(action)

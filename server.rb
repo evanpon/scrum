@@ -1,6 +1,7 @@
 require 'em-websocket'
 require 'json'
 require './socket.rb'
+require './database.rb'
 require './router.rb'
 require './controller.rb'
 require './login_controller.rb'
@@ -10,7 +11,6 @@ class Server
   attr_accessor :channels, :sockets
   def initialize
     self.channels = {}
-    self.sockets = []
   end
   
   def run
@@ -23,12 +23,17 @@ class Server
           #   :origin => handshake.origin,
           # }}"
           socket = Socket.new(ws)
-          sockets << socket
+          Database.add_socket(socket)
         }
         ws.onmessage { |msg|
-          message = JSON.parse(msg)
-          response = Router.route(message)
-          ws.send "Welcome: #{response}"
+          begin
+            message = JSON.parse(msg)
+            response = Router.route(message, ws.object_id)
+            ws.send "Welcome: #{response}"
+          rescue Exception => ex
+            puts ex.message
+            puts ex.backtrace.join("\n")
+          end
         }
         ws.onclose {
           puts "WebSocket closed"
