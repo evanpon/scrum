@@ -36,7 +36,7 @@ function init()
   }
 }
 function SendData() {
-  var data = {path: "login/echo", name: "Evan", sprint: "Sprint"}
+  var data = {path: "login/user", name: "Katie", channel: "Sprint"}
   ws.send(JSON.stringify(data));
 }
 window.addEventListener("load", init, false);  

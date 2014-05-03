@@ -9,7 +9,7 @@ class Router
     controller_name = "#{path[0].capitalize}Controller"
     klass = Object.const_defined?(controller_name) ? Object.const_get(controller_name) : 
                                                      Object.const_missing(controller_name)
-    controller = klass.new(socket_id)
+    controller = klass.new(message, socket_id)
     
     action = path[1]
     controller.process(action)
