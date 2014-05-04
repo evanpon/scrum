@@ -11,8 +11,9 @@ class Database
   end
   
   def self.join_channel(name, socket)
-    sockets = @channels[name] || []
-    @channels[name] = sockets << socket
+    lowercase_name = name.downcase
+    sockets = @channels[lowercase_name] || []
+    @channels[lowercase_name] = sockets << socket
     puts socket.to_s
     
     puts "Channel: #{@channels.inspect}."
