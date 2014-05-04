@@ -2,6 +2,7 @@ require 'em-websocket'
 require 'json'
 require './socket.rb'
 require './database.rb'
+require './channel.rb'
 require './router.rb'
 require './controller.rb'
 require './login_controller.rb'
@@ -29,7 +30,6 @@ class Server
           begin
             message = JSON.parse(msg)
             response = Router.route(message, ws.object_id)
-            ws.send "Welcome: #{response}"
           rescue Exception => ex
             puts ex.message
             puts ex.backtrace.join("\n")

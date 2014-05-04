@@ -13,6 +13,11 @@ function initializeWebsocket() {
   websocket.onopen = function() {};
   websocket.onclose = function() {};
   websocket.onmessage = function(event) {
+    data = JSON.parse(event.data);
+    if (data["login_successful"] == true) {
+      $("#login").hide();
+      $("#vote").show();
+    }
     $("#console").html(event.data);
   }
   return websocket;

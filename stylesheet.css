@@ -26,3 +26,33 @@ div.button {
 div.button:hover {
   background: linear-gradient(rgb(232, 92, 65), rgb(219, 58, 27));
 }
+div#login {
+  display: none;
+}
+div.clear {
+  clear: both;
+}
+.card {
+  border: 1px solid;
+  text-align: center;
+  margin: 5px 20px;
+}
+.choice {
+  width: 150px;
+  height: 200px;
+  line-height: 200px;
+  font-size: 30px;
+}
+ul {
+  margin: auto;
+}
+li {
+  float: left;
+}
+div.name {
+  text-align: center;
+}
+ul#cards {
+  width: 960px;
+  margin-top: 50px;
+}

@@ -3,6 +3,7 @@ class LoginController < Controller
     channel = message['channel']
     socket.name = message['name']
     Database.join_channel(channel, socket)
+    socket.connection.send({login_successful: true}.to_json)
   end
   
   def echo

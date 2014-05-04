@@ -9,4 +9,5 @@ class Controller
   def process(action)
     self.send(action)
   end
+  
 end

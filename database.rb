@@ -14,8 +14,7 @@ class Database
     lowercase_name = name.downcase
     sockets = @channels[lowercase_name] || []
     @channels[lowercase_name] = sockets << socket
-    puts socket.to_s
-    
     puts "Channel: #{@channels.inspect}."
   end
+  
 end
