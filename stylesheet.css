@@ -27,7 +27,7 @@ div.button:hover {
   background: linear-gradient(rgb(232, 92, 65), rgb(219, 58, 27));
 }
 div#login {
-  display: none;
+/*  display: none;*/
 }
 div.clear {
   clear: both;
