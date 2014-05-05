@@ -1,6 +1,7 @@
 require 'em-websocket'
 require 'json'
 require './socket.rb'
+require './user.rb'
 require './database.rb'
 require './channel.rb'
 require './router.rb'
@@ -23,8 +24,8 @@ class Server
           #   :query => handshake.query,
           #   :origin => handshake.origin,
           # }}"
-          socket = Socket.new(ws)
-          Database.add_socket(socket)
+          user = User.new(ws)
+          user.save
         }
         ws.onmessage { |msg|
           begin
