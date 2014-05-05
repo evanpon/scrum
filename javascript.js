@@ -44,7 +44,7 @@ function initializeWebsocket() {
       $("#vote").show();
     }
     else if (data["vote"].length > 0) {
-      
+      addVote(data["name"], data["vote"]);
     }
     $("#console").html(event.data);
   }
