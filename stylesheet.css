@@ -62,3 +62,6 @@ ul#cards {
   line-height: 100px;
   font-size: 15px;
 }
+.blank {
+  background-color: red;
+}

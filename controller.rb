@@ -17,14 +17,14 @@ class Controller
     user.name = message['name']
     
     Database.join_channel(user)
-    
-    user.socket.send({login_successful: true}.to_json)
+    user.socket.send({action: 'login_successful'}.to_json)
+    broadcast(user.channel, {action: 'add_blank', name: user.name})
   end
   
   def vote
     user.vote = message['vote'].chomp
     user.save
-    broadcast(user.channel, {name: user.name, vote: user.vote})
+    broadcast(user.channel, {action: 'add_vote', name: user.name, vote: user.vote})
   end
   
   def broadcast(channel, message)

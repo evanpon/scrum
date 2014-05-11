@@ -16,10 +16,12 @@ $(document).ready(function() {
 })
 
 function addVote(name, vote) {
+  alert("add vote");
   var object = $("#" + name);
   if (object.length > 0) {
     var card = object.find(".card");
     card.html(vote);
+    card.removeClass('blank');
   }
   else {  
     var html = "<li class='vote' id='";
@@ -30,6 +32,22 @@ function addVote(name, vote) {
     $("#votes").append(html);
   }
 }
+
+function addBlank(name) {
+  // alert("adding " + name);
+  var object = $("#" + name);
+  if (object.length > 0) {
+    var card = object.find(".card");
+    card.addClass('blank');
+  }
+  else {  
+    var html = "<li class='vote' id='";
+    html += name + "'><div class='card blank'>";
+    html += "</div><div class='name'>"
+    html += name + "</div></li>";
+    $("#votes").append(html);
+  }  
+}
   
 
 function initializeWebsocket() {
@@ -39,12 +57,19 @@ function initializeWebsocket() {
   websocket.onclose = function() {};
   websocket.onmessage = function(event) {
     data = JSON.parse(event.data);
-    if (data["login_successful"] == true) {
+    var x = $.map(data, function(element,index) {return index})
+    // alert(data["action"]);
+    switch (data["action"]) {
+    case "login_successful":
       $("#login").hide();
       $("#vote").show();
-    }
-    else if (data["vote"].length > 0) {
+      break;
+    case "add_vote":  
       addVote(data["name"], data["vote"]);
+      break;
+    case "add_blank":      
+      addBlank(data["name"]);
+      break;
     }
     $("#console").html(event.data);
   }
