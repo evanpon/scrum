@@ -37,7 +37,8 @@ class Server
           end
         }
         ws.onclose {
-          puts "WebSocket closed"
+          message = {'path' => 'logout'}
+          Router.route(message, ws.object_id)
         }
         ws.onerror { |e|
           puts "Error: #{e.message}"

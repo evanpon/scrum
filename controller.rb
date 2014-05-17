@@ -7,7 +7,7 @@ class Controller
   end
   
   def process(action)
-    if ['login', 'vote'].include?(action)
+    if ['login', 'vote', 'logout'].include?(action)
       self.send(action)
     end
   end
@@ -17,24 +17,29 @@ class Controller
     user.name = message['name']
     
     Database.join_channel(user)
-    user.socket.send({action: 'login_successful'}.to_json)
-    broadcast(user.channel, {action: 'add_blank', name: user.name})
+    user.socket.send({action: 'login_successful', id: user.id}.to_json)
+    broadcast(user.channel, {action: 'add_blank', name: user.name, id: user.id})
     Database.channel(user.channel).each do |user_id|
       compadre = Database.user(user_id)
       if user != compadre
         if compadre.vote.nil?
-          user.socket.send({action: 'add_blank', name: compadre.name}.to_json)
+          user.socket.send({action: 'add_blank', name: compadre.name, id: compadre.id}.to_json)
         else
-          user.socket.send({action: 'add_vote', name: compadre.name, vote: compadre.vote}.to_json)
+          user.socket.send({action: 'add_vote', name: compadre.name, id: compadre.id, vote: compadre.vote}.to_json)
         end  
       end
     end
   end
   
+  def logout
+    Database.leave_channel(user)
+    broadcast(user.channel , {action: 'delete_user', id: user.id})
+  end
+  
   def vote
     user.vote = message['vote'].chomp
     user.save
-    broadcast(user.channel, {action: 'add_vote', name: user.name, vote: user.vote})
+    broadcast(user.channel, {action: 'add_vote', name: user.name, id: user.id, vote: user.vote})
   end
   
   def broadcast(channel, message)

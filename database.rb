@@ -21,6 +21,13 @@ class Database
     @channels[lowercase_name] = users << user.id
     puts "Channel: #{@channels.inspect}."
   end
+ 
+  def self.leave_channel(user)
+    lowercase_name = user.channel.downcase
+    users = @channels[lowercase_name] || []
+    users.delete(user.id)
+    @channels[lowercase_name] = users
+  end
   
   def self.channel(channel)
     @channels[channel.downcase]
