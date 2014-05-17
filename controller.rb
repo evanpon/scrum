@@ -19,6 +19,16 @@ class Controller
     Database.join_channel(user)
     user.socket.send({action: 'login_successful'}.to_json)
     broadcast(user.channel, {action: 'add_blank', name: user.name})
+    Database.channel(user.channel).each do |user_id|
+      compadre = Database.user(user_id)
+      if user != compadre
+        if compadre.vote.nil?
+          user.socket.send({action: 'add_blank', name: compadre.name}.to_json)
+        else
+          user.socket.send({action: 'add_vote', name: compadre.name, vote: compadre.vote}.to_json)
+        end  
+      end
+    end
   end
   
   def vote
@@ -33,4 +43,5 @@ class Controller
       user.socket.send(message.to_json)
     end
   end
+  
 end

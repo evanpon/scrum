@@ -16,7 +16,6 @@ $(document).ready(function() {
 })
 
 function addVote(name, vote) {
-  alert("add vote");
   var object = $("#" + name);
   if (object.length > 0) {
     var card = object.find(".card");
@@ -34,7 +33,6 @@ function addVote(name, vote) {
 }
 
 function addBlank(name) {
-  // alert("adding " + name);
   var object = $("#" + name);
   if (object.length > 0) {
     var card = object.find(".card");
@@ -58,7 +56,6 @@ function initializeWebsocket() {
   websocket.onmessage = function(event) {
     data = JSON.parse(event.data);
     var x = $.map(data, function(element,index) {return index})
-    // alert(data["action"]);
     switch (data["action"]) {
     case "login_successful":
       $("#login").hide();

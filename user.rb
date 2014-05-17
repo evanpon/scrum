@@ -17,4 +17,8 @@ class User
   def save
     Database.save_user(self)
   end
+  
+  def ==(user)
+    self.id == user.id
+  end
 end
