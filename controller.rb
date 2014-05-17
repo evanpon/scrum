@@ -41,7 +41,9 @@ class Controller
     users = Database.users(user.channel)
     if users.map{|u| u.vote}.compact.size == users.size
       # All votes are in!
-      broadcast(user.channel, {action: 'display_votes'})
+      votes = {}
+      users.each {|u| votes[u.id] = u.vote}
+      broadcast(user.channel, {action: 'display_votes', votes: votes})
     else
       broadcast(user.channel, {action: 'add_vote', name: user.name, id: user.id})
     end

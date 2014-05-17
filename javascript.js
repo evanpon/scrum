@@ -58,6 +58,10 @@ function addBlank(id, name) {
     $("#votes").append(html);
   }  
 }
+
+function displayVotes(votes) {
+  alert(votes);
+}
  
 function deleteUser(id) {
   $("#" + id).remove();
@@ -80,6 +84,9 @@ function initializeWebsocket() {
       break;
     case "add_blank":      
       addBlank(data["id"], data["name"]);
+      break;
+    case "display_votes":
+      displayVotes(data["votes"]);
       break;
     case "delete_user":
       deleteUser(data["id"]);
