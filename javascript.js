@@ -26,13 +26,18 @@ function addVote(id, name, vote) {
   var object = $("#" + id);
   if (object.length > 0) {
     var card = object.find(".card");
-    card.html(vote);
+    if (vote != null) {
+      card.html(vote);      
+    }
     card.removeClass('blank');
+    card.addClass('hidden');
   }
   else {  
     var html = "<li class='vote' id='";
-    html += id + "'><div class='card'>";
-    html += vote;
+    html += id + "'><div class='card hidden'>";
+    if (vote != null) {
+      html += vote;
+    }
     html += "</div><div class='name'>"
     html += name + "</div></li>";
     $("#votes").append(html);
@@ -71,7 +76,7 @@ function initializeWebsocket() {
       login(data["id"], websocket);
       break;
     case "add_vote":  
-      addVote(data["id"], data["name"], data["vote"]);
+      addVote(data["id"], data["name"], null);
       break;
     case "add_blank":      
       addBlank(data["id"], data["name"]);

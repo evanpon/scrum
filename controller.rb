@@ -19,13 +19,12 @@ class Controller
     Database.join_channel(user)
     user.socket.send({action: 'login_successful', id: user.id}.to_json)
     broadcast(user.channel, {action: 'add_blank', name: user.name, id: user.id})
-    Database.channel(user.channel).each do |user_id|
-      compadre = Database.user(user_id)
+    Database.users(user.channel).each do |compadre|
       if user != compadre
         if compadre.vote.nil?
           user.socket.send({action: 'add_blank', name: compadre.name, id: compadre.id}.to_json)
         else
-          user.socket.send({action: 'add_vote', name: compadre.name, id: compadre.id, vote: compadre.vote}.to_json)
+          user.socket.send({action: 'add_vote', name: compadre.name, id: compadre.id}.to_json)
         end  
       end
     end
@@ -39,7 +38,13 @@ class Controller
   def vote
     user.vote = message['vote'].chomp
     user.save
-    broadcast(user.channel, {action: 'add_vote', name: user.name, id: user.id, vote: user.vote})
+    users = Database.users(user.channel)
+    if users.map{|u| u.vote}.compact.size == users.size
+      # All votes are in!
+      broadcast(user.channel, {action: 'display_votes'})
+    else
+      broadcast(user.channel, {action: 'add_vote', name: user.name, id: user.id})
+    end
   end
   
   def broadcast(channel, message)

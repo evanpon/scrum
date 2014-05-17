@@ -65,3 +65,7 @@ ul#cards {
 .blank {
   background-color: red;
 }
+.hidden {
+  background-color: green;
+  color: white;
+}

@@ -32,4 +32,8 @@ class Database
   def self.channel(channel)
     @channels[channel.downcase]
   end
+  
+  def self.users(channel)
+    @channels[channel.downcase].map{|user_id| self.user(user_id)}
+  end
 end
