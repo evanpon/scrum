@@ -60,7 +60,12 @@ function addBlank(id, name) {
 }
 
 function displayVotes(votes) {
-  alert(votes);
+  $.each(votes, function(key, value) {
+    var card = $("#" + key).find(".card")
+    card.addClass("hidden");
+    card.removeClass("blank");
+    card.html(value);
+  })
 }
  
 function deleteUser(id) {
