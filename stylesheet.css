@@ -70,16 +70,18 @@ ul#cards {
   color: white;
 }
 #results {
-/*  display: none;*/
-  margin: auto;
+  display: none;
+}
+#summary {
+  margin: 30px auto;
   width: 1170px;
 }
-#results .card {
+#summary .card {
   width: 250px;
   height: 300px;
   line-height: 300px;
   font-size: 30px;
 }
-#cards {
-/*  display: none;*/
+#voting_booth {
+  display: none;
 }

@@ -7,11 +7,16 @@ $(document).ready(function() {
     var data = {path: "login", name: name, channel: channel}
     websocket.send(JSON.stringify(data));
   })
+  $("#reset_button").click(function() {
+    var data = {path: "reset"}
+    websocket.send(JSON.stringify(data));
+  })
+
 })
 
 function login(userId, websocket) {
   $("#login").hide();
-  $("#vote").show();
+  $("#voting_booth").show();
   
   $(".choice").click(function() {
     var vote = $(this).html();
@@ -72,7 +77,17 @@ function displayVotes(votes, summary) {
   })
   $("#cards").hide();
   $("#results").show();
+}
+
+function resetVotes() {
+  array = $(".vote .card").each(function(index) {
+    $(this).empty();
+    $(this).removeClass("hidden");
+    $(this).addClass("blank");
+  })
   
+  $("#results").hide();
+  $("#cards").show();
 }
  
 function deleteUser(id) {
@@ -104,9 +119,12 @@ function initializeWebsocket() {
     case "delete_user":
       deleteUser(data["id"]);
       break;
+    case "reset":
+      resetVotes();
+      break;
     }
     
-    $("#console").html(event.data);
+     // $("#console").html(event.data);
   }
   return websocket;
 }

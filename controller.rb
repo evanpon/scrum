@@ -7,7 +7,7 @@ class Controller
   end
   
   def process(action)
-    if ['login', 'vote', 'logout'].include?(action)
+    if ['login', 'vote', 'logout', 'reset'].include?(action)
       self.send(action)
     end
   end
@@ -49,6 +49,16 @@ class Controller
     end
   end
   
+  def reset
+    users = Database.users(user.channel)
+    users.each do |user|
+      user.vote = nil
+      user.save
+    end
+    
+    broadcast(user.channel, {action: 'reset'})
+  end
+  
   def broadcast(channel, message)
     Database.channel(channel).each do |user_id|
       user = Database.user(user_id)
@@ -65,7 +75,7 @@ class Controller
     results[:median] = votes[votes.size / 2].display
 
     sum = votes.reduce(0) {|sum, v| sum + v.value}
-    average = (sum / votes.size).round(2)
+    average = (sum / votes.size.to_f).round(2)
     results[:average] = "#{average} days"
     results
   end
