@@ -6,8 +6,7 @@ require './database.rb'
 require './channel.rb'
 require './router.rb'
 require './controller.rb'
-require './login_controller.rb'
-require './vote_controller.rb'
+require './vote.rb'
 
 class Server
   attr_accessor :channels, :sockets
@@ -17,7 +16,7 @@ class Server
   
   def run
     EM.run do
-      EM::WebSocket.run(:host => "0.0.0.0", :port => 8080, :debug => false) do |ws|
+      EM::WebSocket.run(:host => "0.0.0.0", :port => 8000, :debug => false) do |ws|
         ws.onopen { |handshake|
           # puts "WebSocket opened #{{
           #   :path => handshake.path,

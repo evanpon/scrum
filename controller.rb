@@ -43,7 +43,7 @@ class Controller
       # All votes are in!
       votes = {}
       users.each {|u| votes[u.id] = u.vote}
-      broadcast(user.channel, {action: 'display_votes', votes: votes})
+      broadcast(user.channel, {action: 'display_votes', votes: votes, summary: summarize_votes(votes.values)})
     else
       broadcast(user.channel, {action: 'add_vote', name: user.name, id: user.id})
     end
@@ -56,4 +56,17 @@ class Controller
     end
   end
   
+  def summarize_votes(strings)
+    votes = strings.map {|string| Vote.new(string)}
+    votes.sort!
+    results = {}
+    results[:min] = votes.first.display
+    results[:max] = votes.last.display
+    results[:median] = votes[votes.size / 2].display
+
+    sum = votes.reduce(0) {|sum, v| sum + v.value}
+    average = (sum / votes.size).round(2)
+    results[:average] = "#{average} days"
+    results
+  end
 end

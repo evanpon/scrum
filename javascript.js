@@ -59,13 +59,20 @@ function addBlank(id, name) {
   }  
 }
 
-function displayVotes(votes) {
+function displayVotes(votes, summary) {
   $.each(votes, function(key, value) {
     var card = $("#" + key).find(".card")
     card.addClass("hidden");
     card.removeClass("blank");
     card.html(value);
   })
+  $.each(summary, function(key, value) {
+    var card = $("#" + key)
+    card.html(value);
+  })
+  $("#cards").hide();
+  $("#results").show();
+  
 }
  
 function deleteUser(id) {
@@ -74,6 +81,7 @@ function deleteUser(id) {
 
 function initializeWebsocket() {
   var url = "ws://scrum.evanpon.com:8000"
+  var url = "ws://localhost:8000"
   var websocket = new WebSocket(url);
   websocket.onopen = function() {};
   websocket.onclose = function() {};
@@ -91,7 +99,7 @@ function initializeWebsocket() {
       addBlank(data["id"], data["name"]);
       break;
     case "display_votes":
-      displayVotes(data["votes"]);
+      displayVotes(data["votes"], data["summary"]);
       break;
     case "delete_user":
       deleteUser(data["id"]);

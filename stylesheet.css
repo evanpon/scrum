@@ -69,3 +69,17 @@ ul#cards {
   background-color: green;
   color: white;
 }
+#results {
+/*  display: none;*/
+  margin: auto;
+  width: 1170px;
+}
+#results .card {
+  width: 250px;
+  height: 300px;
+  line-height: 300px;
+  font-size: 30px;
+}
+#cards {
+/*  display: none;*/
+}
