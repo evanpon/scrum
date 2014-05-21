@@ -73,7 +73,7 @@ function deleteUser(id) {
 } 
 
 function initializeWebsocket() {
-  var url = "ws://localhost:8080"
+  var url = "ws://scrum.evanpon.com:8000"
   var websocket = new WebSocket(url);
   websocket.onopen = function() {};
   websocket.onclose = function() {};
