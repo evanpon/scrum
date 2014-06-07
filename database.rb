@@ -14,12 +14,14 @@ class Database
   end
   
   def self.save_user(user)
+    if @users.size > 500
+      user.socket.close
+      puts "Too many users, closing connection."
+    end
     @users[user.id] = user
   end
   
   def self.join_channel(user)
-    raise Exception.new("Too many users/channels") if @users.size > 500 || @channels.size > 500
-    puts @channels.size
     lowercase_name = user.channel.downcase
     users = @channels[lowercase_name] || []
     @channels[lowercase_name] = users << user.id
