@@ -4,10 +4,11 @@ class Controller
   def initialize(message, socket_id)
     self.message = message
     self.user = Database.user(socket_id)
+    user.access_time = Time.now
   end
   
   def preprocess
-    
+    Database.cleanup_users
   end
   
   def process(action)

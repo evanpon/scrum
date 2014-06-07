@@ -1,5 +1,5 @@
 class User
-  attr_accessor :socket, :name, :id, :channel, :vote
+  attr_accessor :socket, :name, :id, :channel, :vote, :access_time
 
   def initialize(socket)
     self.socket = socket

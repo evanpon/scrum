@@ -26,6 +26,7 @@ class Server
           # }}"
           user = User.new(ws)
           user.save
+          Database.log_access(user)    
         }
         ws.onmessage { |msg|
           begin
