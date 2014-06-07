@@ -6,6 +6,8 @@ class Database
   # array of User ids.
   @channels = {}
   
+  @access_times = []
+  
   # Look up user based on socket id.
   def self.user(socket_id)
     @users[socket_id]
@@ -17,6 +19,7 @@ class Database
   
   def self.join_channel(user)
     raise Exception.new("Too many users/channels") if @users.size > 500 || @channels.size > 500
+    puts @channels.size
     lowercase_name = user.channel.downcase
     users = @channels[lowercase_name] || []
     @channels[lowercase_name] = users << user.id
@@ -28,7 +31,11 @@ class Database
       lowercase_name = channel.downcase
       users = @channels[lowercase_name] || []
       users.delete(user.id)
-      @channels[lowercase_name] = users
+      if users.empty? 
+        @channels.delete(lowercase_name)
+      else
+        @channels[lowercase_name] = users
+      end
     end
   end
   

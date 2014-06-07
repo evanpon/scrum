@@ -68,9 +68,12 @@ class Controller
   end
   
   def broadcast(channel, message)
-    Database.channel(channel).each do |user_id|
-      user = Database.user(user_id)
-      user.socket.send(message.to_json)
+    users = Database.channel(channel)
+    unless users.nil?
+      users.each do |user_id|
+        user = Database.user(user_id)
+        user.socket.send(message.to_json)
+      end
     end
   end
   
