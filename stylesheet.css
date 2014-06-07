@@ -85,3 +85,18 @@ ul#cards {
 #voting_booth {
   display: none;
 }
+#start {
+  width: 600px;
+  margin: 200px auto;
+  display: none;
+  
+  
+}
+#create_button {
+  float: left;
+  text-align: center;
+}
+#join_button {
+  float: right;
+  text-align: center;
+}

@@ -12,9 +12,11 @@ class Controller
     end
   end
   
+  
+  
   def login
-    user.channel = message['channel']
-    user.name = message['name']
+    user.channel = CGI::escapeHTML(message['channel'])
+    user.name = CGI::escapeHTML(message['name'])
     
     Database.join_channel(user)
     user.socket.send({action: 'login_successful', id: user.id}.to_json)
@@ -36,14 +38,18 @@ class Controller
   end
   
   def vote
-    user.vote = message['vote'].chomp
+    user.vote = Vote.new(message['vote'].chomp)
     user.save
     users = Database.users(user.channel)
     if users.map{|u| u.vote}.compact.size == users.size
       # All votes are in!
-      votes = {}
-      users.each {|u| votes[u.id] = u.vote}
-      broadcast(user.channel, {action: 'display_votes', votes: votes, summary: summarize_votes(votes.values)})
+      hash = {}
+      votes = []
+      users.each do |u| 
+        hash[u.id] = u.vote.display
+        votes << u.vote
+      end
+      broadcast(user.channel, {action: 'display_votes', votes: hash, summary: summarize_votes(votes)})
     else
       broadcast(user.channel, {action: 'add_vote', name: user.name, id: user.id})
     end
@@ -66,8 +72,8 @@ class Controller
     end
   end
   
-  def summarize_votes(strings)
-    votes = strings.map {|string| Vote.new(string)}
+  def summarize_votes(votes)
+    # votes = strings.map {|string| Vote.new(string)}
     votes.sort!
     results = {}
     results[:min] = votes.first.display

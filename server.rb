@@ -1,5 +1,6 @@
 require 'em-websocket'
 require 'json'
+require 'cgi'
 require './socket.rb'
 require './user.rb'
 require './database.rb'
@@ -41,6 +42,7 @@ class Server
         }
         ws.onerror { |e|
           puts "Error: #{e.message}"
+          puts e.backtrace.join("\n")
         }
       end
     end

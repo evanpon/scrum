@@ -23,10 +23,13 @@ class Database
   end
  
   def self.leave_channel(user)
-    lowercase_name = user.channel.downcase
-    users = @channels[lowercase_name] || []
-    users.delete(user.id)
-    @channels[lowercase_name] = users
+    channel = user.channel
+    if channel
+      lowercase_name = channel.downcase
+      users = @channels[lowercase_name] || []
+      users.delete(user.id)
+      @channels[lowercase_name] = users
+    end
   end
   
   def self.channel(channel)
