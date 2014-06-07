@@ -51,6 +51,9 @@ li {
 }
 div.name {
   text-align: center;
+  width: 115px;
+  overflow: hidden;
+  height: 45px;
 }
 ul#cards {
   width: 960px;
