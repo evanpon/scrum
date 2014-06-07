@@ -16,10 +16,10 @@ class Database
   end
   
   def self.join_channel(user)
+    raise Exception.new("Too many users/channels") if @users.size > 500 || @channels.size > 500
     lowercase_name = user.channel.downcase
     users = @channels[lowercase_name] || []
     @channels[lowercase_name] = users << user.id
-    puts "Channel: #{@channels.inspect}."
   end
  
   def self.leave_channel(user)

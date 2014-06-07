@@ -6,13 +6,15 @@ class Controller
     self.user = Database.user(socket_id)
   end
   
+  def preprocess
+    
+  end
+  
   def process(action)
     if ['login', 'vote', 'logout', 'reset'].include?(action)
       self.send(action)
     end
   end
-  
-  
   
   def login
     user.channel = CGI::escapeHTML(message['channel'])
