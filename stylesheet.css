@@ -54,6 +54,7 @@ div.name {
   width: 115px;
   overflow: hidden;
   height: 45px;
+  margin: auto;
 }
 ul#cards {
   width: 960px;
@@ -63,7 +64,7 @@ ul#cards {
   width: 75px;
   height: 100px;
   line-height: 100px;
-  font-size: 15px;
+  font-size: 35px;
 }
 .blank {
   background-color: red;
@@ -83,7 +84,7 @@ ul#cards {
   width: 250px;
   height: 300px;
   line-height: 300px;
-  font-size: 30px;
+  font-size: 50px;
 }
 #voting_booth {
   display: none;
@@ -92,8 +93,6 @@ ul#cards {
   width: 600px;
   margin: 200px auto;
   display: none;
-  
-  
 }
 #create_button {
   float: left;

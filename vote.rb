@@ -5,6 +5,8 @@ class Vote
   def initialize(string)
     self.display = string
     self.value = case string.strip
+    when '1', '3', '5', '8'
+      string.strip.to_i  
     when '4 hours'
       0.5
     when '1 day'

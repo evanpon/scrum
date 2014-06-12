@@ -87,7 +87,7 @@ class Controller
 
     sum = votes.reduce(0) {|sum, v| sum + v.value}
     average = (sum / votes.size.to_f).round(2)
-    results[:average] = "#{average} days"
+    results[:average] = "#{average}"
     results
   end
 end
