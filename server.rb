@@ -43,7 +43,7 @@ class Server
         }
         ws.onerror { |e|
           puts "Error: #{e.message}"
-          puts e.backtrace.join("\n")
+          puts e.backtrace.join("\n") if e.backtrace
         }
       end
     end
