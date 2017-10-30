@@ -105,3 +105,7 @@ ul#cards {
 .button {
   text-align: center;
 }
+#eviction {
+  margin: 20px auto;
+  text-align: center;
+}

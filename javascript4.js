@@ -80,6 +80,7 @@ function displayVotes(votes, summary) {
     card.html(value);
   })
   $("#cards").hide();
+  $("#eviction").hide();
   $("#results").show();
 }
 
@@ -92,6 +93,7 @@ function resetVotes() {
   
   $("#results").hide();
   $("#cards").show();
+  $("#eviction").show();
 }
  
 function deleteUser(id) {
