@@ -12,7 +12,7 @@ class Controller
   end
   
   def process(action)
-    if ['login', 'vote', 'logout', 'reset'].include?(action)
+    if ['login', 'vote', 'logout', 'reset', 'evict'].include?(action)
       self.send(action)
     end
   end
@@ -37,7 +37,7 @@ class Controller
   
   def logout
     Database.leave_channel(user)
-    broadcast(user.channel , {action: 'delete_user', id: user.id})
+    broadcast(user.channel, {action: 'delete_user', id: user.id})
   end
   
   def vote
@@ -46,13 +46,7 @@ class Controller
     users = Database.users(user.channel)
     if users.map{|u| u.vote}.compact.size == users.size
       # All votes are in!
-      hash = {}
-      votes = []
-      users.each do |u| 
-        hash[u.id] = u.vote.display
-        votes << u.vote
-      end
-      broadcast(user.channel, {action: 'display_votes', votes: hash, summary: summarize_votes(votes)})
+      broadcast_votes(users)
     else
       broadcast(user.channel, {action: 'add_vote', name: user.name, id: user.id})
     end
@@ -68,6 +62,16 @@ class Controller
     broadcast(user.channel, {action: 'reset'})
   end
   
+  def evict
+    Database.users(user.channel).each do |voter|
+      if voter.vote.nil?
+        Database.leave_channel(voter)
+        broadcast(voter.channel, {action: 'delete_user', id: voter.id})
+      end
+    end
+    broadcast_votes(Database.users(user.channel))    
+  end
+  
   def broadcast(channel, message)
     if channel && Database.channel(channel)
       Database.channel(channel).each do |user_id|
@@ -77,7 +81,13 @@ class Controller
     end
   end
   
-  def summarize_votes(votes)
+  def broadcast_votes(users)
+    hash = {}
+    votes = []
+    users.each do |u| 
+      hash[u.id] = u.vote.display
+      votes << u.vote
+    end
     # votes = strings.map {|string| Vote.new(string)}
     votes.sort!
     results = {}
@@ -88,6 +98,6 @@ class Controller
     sum = votes.reduce(0) {|sum, v| sum + v.value}
     average = (sum / votes.size.to_f).round(2)
     results[:average] = "#{average}"
-    results
+    broadcast(user.channel, {action: 'display_votes', votes: hash, summary: results})
   end
 end
