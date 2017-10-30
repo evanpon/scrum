@@ -63,13 +63,15 @@ class Controller
   end
   
   def evict
-    Database.users(user.channel).each do |voter|
-      if voter.vote.nil?
-        Database.leave_channel(voter)
-        broadcast(voter.channel, {action: 'delete_user', id: voter.id})
+    if Database.users(user.channel).size > 1
+      Database.users(user.channel).each do |voter|
+        if voter.vote.nil?
+          Database.leave_channel(voter)
+          broadcast(voter.channel, {action: 'delete_user', id: voter.id})
+        end
       end
+      broadcast_votes(Database.users(user.channel))    
     end
-    broadcast_votes(Database.users(user.channel))    
   end
   
   def broadcast(channel, message)
